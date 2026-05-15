@@ -81,17 +81,17 @@ button{border:0;padding:14px 10px;font-weight:900;font-size:15px;cursor:pointer}
 
 <div id="main" class="wrap">
   <div class="header">
-    <h1>✨ CHOI WOOYOUNG SEAFOOD CHEFS ✨</h1>
-    <p>발주리스트</p>
+    <h1> CHOI WOOYOUNG SEAFOOD CHEFS </h1>
+    <p></p>
   </div>
 
   <div class="card">
     <h2>🏪 매장별 선택</h2>
     <div class="grid store">
       <label><input type="checkbox" name="store" value="구로"> 🏢 구로</label>
-      <label><input type="checkbox" name="store" value="영등포"> 🌆 영등포</label>
-      <label><input type="checkbox" name="store" value="여의도"> 🌉 여의도</label>
-      <label><input type="checkbox" name="store" value="종로"> 🏛 종로</label>
+      <label><input type="checkbox" name="store" value="영등포"> 🏢 영등포</label>
+      <label><input type="checkbox" name="store" value="여의도"> 🏢 여의도</label>
+      <label><input type="checkbox" name="store" value="종로"> 🏢 종로</label>
       <label><input type="checkbox" name="store" value="1"> 📝 1</label>
       <label><input type="checkbox" name="store" value="2"> 📋 2</label>
     </div>
@@ -183,7 +183,7 @@ function nowText(){
 
 function buildText(){
   let lines=[];
-  lines.push('🏪 최우영수산 발주 리스트');
+  lines.push('🏪 최우영씨푸드 발주 리스트');
   lines.push('');
   lines.push('📅 ' + nowText());
   lines.push('');
@@ -245,7 +245,7 @@ async function copyText(){
 }
 async function shareKakao(){
   const text=buildText();
-  if(navigator.share){try{await navigator.share({title:'최우영수산 발주 리스트', text});}catch(e){}}
+  if(navigator.share){try{await navigator.share({title:'최우영씨푸드 발주 리스트', text});}catch(e){}}
   else copyText();
 }
 function resetAll(){
