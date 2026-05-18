@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>최우영수산 발주 앱</title>
+<style>
+  :root{
+    --gold:#b8892f;
+    --gold2:#d7b45a;
+    --black:#151515;
+    --line:#e7e2d6;
+    --bg:#ffffff;
+    --soft:#faf7ef;
+    --text:#222;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",Arial,sans-serif;
+    font-size:17px;
+  }
+  .wrap{max-width:780px;margin:0 auto;padding:18px 14px 40px}
+  .hero{
+    border:1px solid var(--line);
+    border-radius:22px;
+    padding:22px 16px;
+    text-align:center;
+    background:linear-gradient(180deg,#fff,#fffaf0);
+    box-shadow:0 8px 24px rgba(0,0,0,.06);
+  }
+  .brand{font-size:23px;font-weight:900;letter-spacing:.8px;color:var(--gold);}
+  .sub{margin-top:6px;font-size:15px;color:#666;font-weight:700}
+  .section{
+    margin-top:16px;
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:15px;
+    background:#fff;
+  }
+  .title{font-size:20px;font-weight:900;margin-bottom:12px;color:#111;}
+  .store-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+  .store-btn{
+    border:1px solid #d7d0c2;
+    background:#fff;
+    color:#222;
+    padding:13px 5px;
+    border-radius:13px;
+    font-size:17px;
+    font-weight:900;
+  }
+  .store-btn.active{background:#1d1d1d;color:#fff;border-color:#1d1d1d;box-shadow:0 4px 10px rgba(0,0,0,.12)}
+  .item{
+    display:grid;
+    grid-template-columns:1fr 118px;
+    gap:10px;
+    align-items:center;
+    padding:10px 0;
+    border-bottom:1px dashed #eee;
+  }
+  .item:last-child{border-bottom:none}
+  .name{font-weight:800;font-size:18px}
+  input[type="number"], input[type="text"], textarea{
+    width:100%;
+    border:1px solid #d8d2c7;
+    border-radius:12px;
+    padding:12px;
+    font-size:17px;
+    font-weight:800;
+    background:#fff;
+  }
+  .check-only{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px 0;
+    border-bottom:1px dashed #eee;
+    font-weight:900;
+    font-size:18px;
+  }
+  .check-only input{width:24px;height:24px;accent-color:#111}
+  textarea{min-height:90px;font-weight:600;resize:vertical}
+  .actions{margin-top:18px;display:grid;gap:10px}
+  button.main{
+    border:none;
+    border-radius:16px;
+    padding:15px 12px;
+    font-size:18px;
+    font-weight:900;
+    cursor:pointer;
+  }
+  .kakao{background:#fee500;color:#111}
+  .copy{background:#111;color:#fff}
+  .btnSub{display:block;font-size:13px;font-weight:800;margin-top:4px;opacity:.95}
+  .clear{background:#f2f2f2;color:#333}
+  .hint{font-size:14px;color:#666;line-height:1.5;margin-top:8px;text-align:center}
+  .preview{
+    white-space:pre-wrap;
+    background:#fafafa;
+    border:1px solid #eee;
+    border-radius:16px;
+    padding:14px;
+    margin-top:14px;
+    font-size:15px;
+    line-height:1.55;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div class="brand">CHOI WOOYOUNG SEAFOOD</div>
+    <div class="sub">발주 리스트 · 카카오 보내기 = 복사 후 링크 열기</div>
+  </div>
+
+  <div class="section">
+    <div class="title">🏪 매장 선택</div>
+    <div class="store-grid" id="storeGrid"></div>
+  </div>
+
+  <div class="section">
+    <div class="title">🐟 수량 입력 품목</div>
+    <div id="qtyItems"></div>
+  </div>
+
+  <div class="section">
+    <div class="title">☑ 체크 전용 품목</div>
+    <label class="check-only"><input type="checkbox" data-check="점성어 없음"> 점성어 없음</label>
+    <label class="check-only"><input type="checkbox" data-check="전복 없음"> 전복 없음</label>
+    <label class="check-only"><input type="checkbox" data-check="멍게 없음"> 멍게 없음</label>
+    <label class="check-only"><input type="checkbox" data-check="세꼬시 없음"> 세꼬시 없음</label>
+  </div>
+
+  <div class="section">
+    <div class="title">📅 요일별 연어 발주</div>
+    <div id="salmonItems"></div>
+    <div class="hint">예: 화 3 / 수·목 4 / 금·토 5 기준으로 보고</div>
+  </div>
+
+  <div class="section">
+    <div class="title">📝 메모</div>
+    <textarea id="memo" placeholder="추가 요청사항을 입력하세요."></textarea>
+  </div>
+
+  <div class="actions">
+    <button class="main kakao" onclick="kakaoCopyThenOpen()">💬 카카오 보내기<br><span class="btnSub">복사 후 카카오톡 열기</span></button>
+    <button class="main copy" onclick="copyOrderWithLink()">🔗 발주내용+앱링크 복사</button>
+    <button class="main copy" onclick="copyOrderText()">📋 발주 내용 복사</button>
+    <button class="main clear" onclick="clearAll()">처음부터 다시</button>
+  </div>
+
+  <div class="preview" id="preview"></div>
+</div>
+
+<script>
+const stores = ['구로','영등포','여의도','종로','1','2','3','4'];
+const qtyList = ['참돔','광어','연어','방어','도다리','우럭','성게알','포장용 매운탕','메모 품목'];
+const salmonDays = ['월요일','화요일','수요일','목요일','금요일','토요일'];
+let selectedStore = stores[0];
+
+function init(){
+  const grid = document.getElementById('storeGrid');
+  stores.forEach(s=>{
+    const b=document.createElement('button');
+    b.className='store-btn'+(s===selectedStore?' active':'');
+    b.textContent=s;
+    b.onclick=()=>{
+      selectedStore=s;
+      document.querySelectorAll('.store-btn').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      renderPreview();
+    };
+    grid.appendChild(b);
+  });
+
+  const qtyBox=document.getElementById('qtyItems');
+  qtyList.forEach(name=>{
+    const row=document.createElement('div');
+    row.className='item';
+    row.innerHTML=`<div class="name">${name}</div><input type="number" min="0" step="0.1" data-name="${name}" placeholder="수량">`;
+    qtyBox.appendChild(row);
+  });
+
+  const salmonBox=document.getElementById('salmonItems');
+  salmonDays.forEach(day=>{
+    const row=document.createElement('div');
+    row.className='item';
+    row.innerHTML=`<div class="name">${day}</div><input type="number" min="0" step="1" data-salmon="${day}" placeholder="수량">`;
+    salmonBox.appendChild(row);
+  });
+
+  document.querySelectorAll('input, textarea').forEach(el=>el.addEventListener('input',renderPreview));
+  document.querySelectorAll('input[type="checkbox"]').forEach(el=>el.addEventListener('change',renderPreview));
+  renderPreview();
+}
+
+function todayText(){
+  const d=new Date();
+  const yo=['일','월','화','수','목','금','토'][d.getDay()];
+  return `${d.getMonth()+1}/${d.getDate()}(${yo})`;
+}
+
+function makeOrderText(){
+  let text=`🏪 최우영수산 발주 리스트\n📍 매장: ${selectedStore}\n📅 ${todayText()}\n━━━━━━━━━━━━━━\n\n`;
+  text+='🐟 수량 입력 품목\n';
+  document.querySelectorAll('[data-name]').forEach(i=>{
+    if(i.value) text+=`• ${i.dataset.name}: ${i.value}\n`;
+  });
+  text+='\n☑ 체크 전용 품목\n';
+  let checked=false;
+  document.querySelectorAll('[data-check]').forEach(i=>{
+    if(i.checked){ text+=`• ${i.dataset.check}\n`; checked=true; }
+  });
+  if(!checked) text+='• 없음\n';
+
+  text+='\n📅 요일별 연어 발주\n';
+  let salmon=false;
+  document.querySelectorAll('[data-salmon]').forEach(i=>{
+    if(i.value){ text+=`• ${i.dataset.salmon}: ${i.value}\n`; salmon=true; }
+  });
+  if(!salmon) text+='• 입력 없음\n';
+
+  const memo=document.getElementById('memo').value.trim();
+  if(memo) text+=`\n📝 메모\n${memo}\n`;
+  text+='\n보내주세요.';
+  return text;
+}
+
+function renderPreview(){
+  document.getElementById('preview').textContent=makeOrderText();
+}
+
+function copyText(text){
+  if(navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(text).then(()=>alert('복사되었습니다.'))
+    .catch(()=>fallbackCopy(text));
+  }else{
+    fallbackCopy(text);
+  }
+}
+
+function fallbackCopy(text){
+  const textarea=document.createElement('textarea');
+  textarea.value=text;
+  textarea.style.position='fixed';
+  textarea.style.top='-9999px';
+  textarea.style.left='-9999px';
+  document.body.appendChild(textarea);
+  textarea.focus();
+  textarea.select();
+  try{
+    document.execCommand('copy');
+    alert('복사되었습니다.');
+  }catch(e){
+    prompt('길게 눌러 복사해주세요.', text);
+  }
+  document.body.removeChild(textarea);
+}
+
+
+function makeOrderTextWithLink(){
+  return makeOrderText() + `\n\n🔗 앱 링크\n${window.location.href}`;
+}
+
+function copyOrderWithLink(){
+  copyText(makeOrderTextWithLink());
+}
+
+function kakaoCopyThenOpen(){
+  const text = makeOrderTextWithLink();
+
+  const afterCopy = () => {
+    alert('발주 내용과 앱 링크가 복사되었습니다.\n카카오톡이 열리면 대화방에 붙여넣기 해주세요.');
+    setTimeout(()=>{
+      window.location.href = 'kakaotalk://';
+    }, 300);
+  };
+
+  if(navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(text)
+      .then(afterCopy)
+      .catch(()=>{
+        fallbackCopy(text);
+        setTimeout(()=>{ window.location.href = 'kakaotalk://'; }, 500);
+      });
+  }else{
+    fallbackCopy(text);
+    setTimeout(()=>{ window.location.href = 'kakaotalk://'; }, 500);
+  }
+}
+
+function clearAll(){
+  document.querySelectorAll('input[type="number"], textarea').forEach(i=>i.value='');
+  document.querySelectorAll('input[type="checkbox"]').forEach(i=>i.checked=false);
+  renderPreview();
+  if(navigator.vibrate) navigator.vibrate([120,60,120]);
+}
+
+init();
+</script>
+</body>
+</html>
