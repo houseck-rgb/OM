@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>최우영수산 발주 앱</title>
+<style>
+  :root{
+    --gold:#b8892f;
+    --gold2:#d7b45a;
+    --gold3:#fff1b8;
+    --black:#111111;
+    --deep:#171717;
+    --gray:#3b3b3b;
+    --line:#e9dfca;
+    --bg:#f8f5ee;
+    --soft:#fffaf0;
+    --text:#1c1c1c;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:
+      radial-gradient(circle at top,#fff7df 0,#f8f5ee 34%,#f4efe4 100%);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",Arial,sans-serif;
+    font-size:17px;
+  }
+  .wrap{max-width:780px;margin:0 auto;padding:20px 14px 44px}
+  .hero{
+    border:1px solid rgba(215,180,90,.45);
+    border-radius:32px;
+    padding:30px 18px 26px;
+    text-align:center;
+    background:linear-gradient(180deg,#ffffff,#fffaf0);
+    box-shadow:0 14px 34px rgba(0,0,0,.08);
+  }
+  .brand{
+    font-size:30px;
+    font-weight:1000;
+    letter-spacing:2px;
+    font-family:"Times New Roman",serif;
+    background:linear-gradient(135deg,#8c6a22,#d7b45a,#fff1b8,#9f7428);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    text-shadow:0 2px 10px rgba(215,180,90,.18);
+  }
+  .sub{
+    margin-top:10px;
+    font-size:15px;
+    color:#7b6a45;
+    font-weight:800;
+    letter-spacing:.3px;
+  }
+  .section{
+    margin-top:18px;
+    border:1px solid rgba(215,180,90,.35);
+    border-radius:24px;
+    padding:17px;
+    background:rgba(255,255,255,.9);
+    box-shadow:0 10px 26px rgba(69,48,12,.08);
+    backdrop-filter:blur(6px);
+  }
+  .title{
+    font-size:20px;
+    font-weight:950;
+    margin-bottom:13px;
+    color:#141414;
+    letter-spacing:-.2px;
+  }
+  .store-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+  .store-btn{
+    border:1px solid #5f5230;
+    background:linear-gradient(145deg,#1b1b1b,#2d2d2d,#4a4a4a);
+    color:#f1d58a;
+    padding:13px 5px;
+    border-radius:16px;
+    font-size:17px;
+    font-weight:900;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.06),
+      0 4px 14px rgba(0,0,0,.25);
+    transition:all .18s ease;
+    cursor:pointer;
+  }
+  .store-btn:active{transform:scale(.96);}
+  .store-btn.active{
+    background:linear-gradient(145deg,#8c6a22,#d7b45a,#8c6a22);
+    color:#111;
+    border-color:#d7b45a;
+    box-shadow:0 0 16px rgba(215,180,90,.45),0 4px 14px rgba(0,0,0,.22);
+  }
+  .item{
+    display:grid;
+    grid-template-columns:1fr 118px;
+    gap:10px;
+    align-items:center;
+    padding:10px 0;
+    border-bottom:1px dashed #eee;
+  }
+  .item:last-child{border-bottom:none}
+  .name{font-weight:800;font-size:18px}
+  input[type="number"], input[type="text"], textarea{
+    width:100%;
+    border:1px solid #d8c99f;
+    border-radius:15px;
+    padding:12px;
+    font-size:17px;
+    font-weight:850;
+    background:#fffdf8;
+    box-shadow:inset 0 1px 3px rgba(0,0,0,.04);
+  }
+  .check-only{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px 0;
+    border-bottom:1px dashed #eee;
+    font-weight:900;
+    font-size:18px;
+  }
+  .check-only input{width:24px;height:24px;accent-color:#111}
+  textarea{min-height:90px;font-weight:600;resize:vertical}
+  .actions{margin-top:18px;display:grid;gap:10px}
+  button.main{
+    border:none;
+    border-radius:20px;
+    padding:16px 12px;
+    font-size:18px;
+    font-weight:950;
+    cursor:pointer;
+    box-shadow:0 8px 20px rgba(0,0,0,.12);
+  }
+  .kakao{
+    background:linear-gradient(145deg,#fee500,#fff4a8,#f0c900);
+    color:#111;
+    border:1px solid rgba(120,90,0,.2);
+  }
+  .copy{
+    background:linear-gradient(145deg,#111,#333,#111);
+    color:#f1d58a;
+    border:1px solid rgba(215,180,90,.45);
+  }
+  .btnSub{display:block;font-size:13px;font-weight:850;margin-top:5px;opacity:.95}
+  .clear{
+    background:linear-gradient(145deg,#f8f8f8,#e9e9e9);
+    color:#333;
+    border:1px solid #ddd;
+  }
+  .hint{font-size:14px;color:#666;line-height:1.5;margin-top:8px;text-align:center}
+  .preview-window{
+    margin-top:18px;
+    border:1px solid #d7b45a;
+    border-radius:20px;
+    overflow:hidden;
+    background:#fff;
+    box-shadow:0 8px 24px rgba(0,0,0,.08);
+  }
+  .preview-head{
+    background:linear-gradient(145deg,#111,#333,#111);
+    color:#f1d58a;
+    padding:13px 15px;
+    font-size:17px;
+    font-weight:900;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .preview-badge{
+    font-size:12px;
+    color:#111;
+    background:linear-gradient(145deg,#d7b45a,#fff0b0,#b8892f);
+    padding:5px 9px;
+    border-radius:999px;
+    font-weight:900;
+  }
+  .preview{
+    white-space:pre-wrap;
+    background:#fffdf8;
+    border:none;
+    padding:16px;
+    min-height:190px;
+    max-height:360px;
+    overflow:auto;
+    font-size:16px;
+    line-height:1.65;
+    color:#222;
+  }
+
+  /* 링크 설정 섹션 */
+  .link-label{
+    font-size:14px;
+    font-weight:900;
+    color:#7b6a45;
+    margin-bottom:8px;
+  }
+  .link-row{
+    display:flex;
+    gap:8px;
+    align-items:center;
+  }
+  .link-row input{
+    flex:1;
+    font-size:14px;
+    padding:10px 12px;
+    border-radius:12px;
+    border:1px solid #d8c99f;
+    background:#fffdf8;
+    color:#333;
+  }
+  .link-reset-btn{
+    border:1px solid #d8c99f;
+    background:#fffdf8;
+    color:#7b6a45;
+    border-radius:12px;
+    padding:10px 12px;
+    font-size:13px;
+    font-weight:900;
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  .link-hint{
+    font-size:12px;
+    color:#999;
+    margin-top:6px;
+  }
+
+  /* 공유 모달 */
+  .share-modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.62);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:999;
+    padding:20px;
+    backdrop-filter:blur(5px);
+  }
+  .share-box{
+    width:100%;
+    max-width:430px;
+    background:#fffaf0;
+    border-radius:30px;
+    overflow:hidden;
+    border:1px solid rgba(215,180,90,.6);
+    box-shadow:0 26px 70px rgba(0,0,0,.34);
+  }
+  .share-head{
+    padding:22px 18px;
+    background:linear-gradient(145deg,#0f0f0f,#2c2c2c 52%,#111);
+    color:#f1d58a;
+    font-size:21px;
+    font-weight:950;
+    text-align:center;
+    letter-spacing:.2px;
+    border-bottom:1px solid rgba(215,180,90,.35);
+  }
+  .share-body{
+    padding:20px;
+    display:grid;
+    gap:14px;
+  }
+  .share-btn{
+    border:none;
+    border-radius:22px;
+    padding:18px;
+    font-size:18px;
+    font-weight:950;
+    cursor:pointer;
+    box-shadow:0 9px 22px rgba(0,0,0,.14);
+  }
+  .share-copy{
+    background:linear-gradient(145deg,#9c7428,#e3c46b,#fff1b8,#a77a26);
+    color:#111;
+    border:1px solid rgba(120,90,0,.25);
+  }
+  .share-app{
+    background:linear-gradient(145deg,#111,#333,#111);
+    color:#f1d58a;
+    border:1px solid rgba(215,180,90,.45);
+  }
+  .share-close{
+    background:linear-gradient(145deg,#fff,#ece4d2);
+    color:#333;
+    border:1px solid #e2d5b9;
+  }
+
+  /* 토스트 알림 */
+  .toast{
+    position:fixed;
+    bottom:30px;
+    left:50%;
+    transform:translateX(-50%) translateY(20px);
+    background:linear-gradient(145deg,#111,#333);
+    color:#f1d58a;
+    padding:14px 24px;
+    border-radius:999px;
+    font-size:16px;
+    font-weight:900;
+    box-shadow:0 8px 28px rgba(0,0,0,.3);
+    opacity:0;
+    transition:opacity .3s ease, transform .3s ease;
+    z-index:9999;
+    pointer-events:none;
+    white-space:nowrap;
+    border:1px solid rgba(215,180,90,.4);
+  }
+  .toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div class="brand">CHOI WOOYOUNG SEAFOOD</div>
+    <div class="sub">발주 리스트 · 카카오 보내기 = 복사 후 링크 열기</div>
+  </div>
+
+  <div class="section">
+    <div class="title">🏪 매장 선택</div>
+    <div class="store-grid" id="storeGrid"></div>
+  </div>
+
+  <div class="section">
+    <div class="title">🐟 수량 입력 품목</div>
+    <div id="qtyItems"></div>
+  </div>
+
+  <div class="section">
+    <div class="title">☑ 체크 전용 품목</div>
+    <label class="check-only"><input type="checkbox" data-check="점성어 없음"> 점성어 없음</label>
+    <label class="check-only"><input type="checkbox" data-check="전복 없음"> 전복 없음</label>
+    <label class="check-only"><input type="checkbox" data-check="멍게 없음"> 멍게 없음</label>
+    <label class="check-only"><input type="checkbox" data-check="세꼬시 없음"> 세꼬시 없음</label>
+  </div>
+
+  <div class="section">
+    <div class="title">📅 요일별 연어 발주</div>
+    <div id="salmonItems"></div>
+    <div class="hint">예: 화 3 / 수·목 4 / 금·토 5 기준으로 보고</div>
+  </div>
+
+  <div class="section">
+    <div class="title">📝 메모</div>
+    <textarea id="memo" placeholder="추가 요청사항을 입력하세요."></textarea>
+  </div>
+
+  <!-- ✅ 앱 링크 설정 섹션 (신규 추가) -->
+  <div class="section">
+    <div class="title">🔗 앱 링크 설정</div>
+    <div class="link-label">복사될 링크를 확인하거나 직접 수정하세요</div>
+    <div class="link-row">
+      <input type="text" id="appLinkInput" placeholder="앱 링크를 입력하세요">
+      <button class="link-reset-btn" onclick="resetLink()">현재 주소로</button>
+    </div>
+    <div class="link-hint">※ 카카오 보내기 시 발주 내용과 함께 이 링크가 포함됩니다</div>
+  </div>
+
+  <div class="preview-window">
+    <div class="preview-head">
+      <span>📋 전송 미리보기</span>
+      <span class="preview-badge">복사될 내용</span>
+    </div>
+    <div class="preview" id="preview"></div>
+  </div>
+
+  <div class="actions">
+    <button class="main kakao" onclick="openShareModal()">💬 카카오 보내기<br><span class="btnSub">복사 후 카카오톡 열기</span></button>
+    <button class="main clear" onclick="clearAll()">처음부터 다시</button>
+  </div>
+</div>
+
+<!-- 토스트 알림 -->
+<div class="toast" id="toast"></div>
+
+<!-- 공유 모달 -->
+<div class="share-modal" id="shareModal">
+  <div class="share-box">
+    <div class="share-head">💬 카카오 보내기</div>
+    <div class="share-body">
+      <button class="share-btn share-copy" onclick="copyOrderWithLinkAndClose()">
+        🔗 발주내용 + 앱링크 복사
+      </button>
+      <button class="share-btn share-app" onclick="copyOrderTextAndClose()">
+        📋 발주내용만 복사
+      </button>
+      <button class="share-btn share-close" onclick="closeShareModal()">
+        닫기
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+const stores = ['구로','영등포','여의도','종로','1','2','3','4'];
+const qtyList = ['참돔','광어','연어','방어','도다리','우럭','성게알','포장용 매운탕','메모 품목'];
+const salmonDays = ['월요일','화요일','수요일','목요일','금요일','토요일'];
+let selectedStore = stores[0];
+
+/* ── 토스트 알림 ── */
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+/* ── 링크 헬퍼 ── */
+function getAppLink() {
+  return document.getElementById('appLinkInput').value.trim() || window.location.href;
+}
+function resetLink() {
+  document.getElementById('appLinkInput').value = window.location.href;
+  showToast('현재 주소로 설정되었습니다 ✅');
+}
+
+/* ── 초기화 ── */
+function init(){
+  // 링크 입력창 초기값: 현재 페이지 주소
+  document.getElementById('appLinkInput').value = window.location.href;
+
+  const grid = document.getElementById('storeGrid');
+  stores.forEach(s=>{
+    const b = document.createElement('button');
+    b.className = 'store-btn' + (s === selectedStore ? ' active' : '');
+    b.textContent = s;
+    b.onclick = () => {
+      selectedStore = s;
+      document.querySelectorAll('.store-btn').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      renderPreview();
+    };
+    grid.appendChild(b);
+  });
+
+  const qtyBox = document.getElementById('qtyItems');
+  qtyList.forEach(name => {
+    const row = document.createElement('div');
+    row.className = 'item';
+    row.innerHTML = `<div class="name">${name}</div><input type="number" min="0" step="0.1" data-name="${name}" placeholder="수량">`;
+    qtyBox.appendChild(row);
+  });
+
+  const salmonBox = document.getElementById('salmonItems');
+  salmonDays.forEach(day => {
+    const row = document.createElement('div');
+    row.className = 'item';
+    row.innerHTML = `<div class="name">${day}</div><input type="number" min="0" step="1" data-salmon="${day}" placeholder="수량">`;
+    salmonBox.appendChild(row);
+  });
+
+  document.querySelectorAll('input:not(#appLinkInput), textarea').forEach(el => el.addEventListener('input', renderPreview));
+  document.querySelectorAll('input[type="checkbox"]').forEach(el => el.addEventListener('change', renderPreview));
+  renderPreview();
+}
+
+function todayText(){
+  const d = new Date();
+  const yo = ['일','월','화','수','목','금','토'][d.getDay()];
+  return `${d.getMonth()+1}/${d.getDate()}(${yo})`;
+}
+
+/* ── 발주 텍스트 생성 ── */
+function makeOrderText(){
+  let text = `🏪 최우영수산 발주 리스트\n📍 매장: ${selectedStore}\n📅 ${todayText()}\n━━━━━━━━━━━━━━\n\n`;
+  text += '🐟 수량 입력 품목\n';
+  document.querySelectorAll('[data-name]').forEach(i => {
+    if(i.value) text += `• ${i.dataset.name}: ${i.value}\n`;
+  });
+  text += '\n☑ 체크 전용 품목\n';
+  let checked = false;
+  document.querySelectorAll('[data-check]').forEach(i => {
+    if(i.checked){ text += `• ${i.dataset.check}\n`; checked = true; }
+  });
+  if(!checked) text += '• 없음\n';
+
+  text += '\n📅 요일별 연어 발주\n';
+  let salmon = false;
+  document.querySelectorAll('[data-salmon]').forEach(i => {
+    if(i.value){ text += `• ${i.dataset.salmon}: ${i.value}\n`; salmon = true; }
+  });
+  if(!salmon) text += '• 입력 없음\n';
+
+  const memo = document.getElementById('memo').value.trim();
+  if(memo) text += `\n📝 메모\n${memo}\n`;
+  text += '\n보내주세요.';
+  return text;
+}
+
+/* ── 링크 포함 텍스트 ── */
+function makeOrderTextWithLink(){
+  const link = getAppLink();
+  return makeOrderText() + `\n\n🔗 앱 링크\n${link}`;
+}
+
+function renderPreview(){
+  document.getElementById('preview').textContent = makeOrderText();
+}
+
+/* ── 복사 함수 ── */
+function copyText(text, successMsg){
+  const msg = successMsg || '복사되었습니다 ✅';
+  if(navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(text)
+      .then(() => showToast(msg))
+      .catch(() => fallbackCopy(text, msg));
+  } else {
+    fallbackCopy(text, msg);
+  }
+}
+
+function fallbackCopy(text, msg){
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px';
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  try {
+    document.execCommand('copy');
+    showToast(msg || '복사되었습니다 ✅');
+  } catch(e) {
+    prompt('길게 눌러 복사해주세요.', text);
+  }
+  document.body.removeChild(ta);
+}
+
+/* ── 발주내용만 복사 (✅ 신규 추가 — 이전에 누락된 함수) ── */
+function copyOrderText(){
+  copyText(makeOrderText(), '발주 내용이 복사되었습니다 ✅');
+}
+
+/* ── 발주내용 + 링크 복사 ── */
+function copyOrderWithLink(){
+  copyText(makeOrderTextWithLink(), '발주 내용 + 링크가 복사되었습니다 🔗');
+}
+
+/* ── 모달 ── */
+function openShareModal(){
+  document.getElementById('shareModal').style.display = 'flex';
+}
+function closeShareModal(){
+  document.getElementById('shareModal').style.display = 'none';
+}
+
+function copyOrderWithLinkAndClose(){
+  copyOrderWithLink();
+  closeShareModal();
+  // 복사 후 카카오톡 열기
+  setTimeout(() => { window.location.href = 'kakaotalk://'; }, 600);
+}
+
+function copyOrderTextAndClose(){
+  copyOrderText();
+  closeShareModal();
+  // 복사 후 카카오톡 열기
+  setTimeout(() => { window.location.href = 'kakaotalk://'; }, 600);
+}
+
+/* ── 초기화 ── */
+function clearAll(){
+  document.querySelectorAll('input[type="number"], textarea').forEach(i => i.value = '');
+  document.querySelectorAll('input[type="checkbox"]').forEach(i => i.checked = false);
+  renderPreview();
+  showToast('초기화되었습니다 🔄');
+  if(navigator.vibrate) navigator.vibrate([120,60,120]);
+}
+
+init();
+</script>
+</body>
+</html>
