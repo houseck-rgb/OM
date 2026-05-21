@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>최우영수산 발주 앱</title>
+<title>최우영씨푸드 발주 앱</title>
 
 <link rel="icon" type="image/png" href="./icon-v3.png?v=3">
 <link rel="shortcut icon" type="image/png" href="./icon-v3.png?v=3">
@@ -420,7 +420,7 @@ function todayText(){
 
 /* ── 발주 텍스트 생성 ── */
 function makeOrderText(){
-  let text = `🏪 최우영수산 발주 리스트\n📍 매장: ${selectedStore}\n📅 ${todayText()}\n━━━━━━━━━━━━━━\n\n`;
+  let text = `🏪 최우영씨푸드 발주 리스트\n📍 매장: ${selectedStore}\n📅 ${todayText()}\n━━━━━━━━━━━━━━\n\n`;
   text += '🐟 수량 입력 품목\n';
   document.querySelectorAll('[data-name]').forEach(i => {
     if(i.value) text += `• ${i.dataset.name}: ${i.value}\n`;
