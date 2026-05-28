@@ -411,8 +411,21 @@ function showToast(msg) {
 }
 
 /* ── 링크 헬퍼 ── */
-function getAppLink() {
-  return 'https://om-omega-five.vercel.app/';
+async function copyOrderWithLink(){
+
+  const text = makeOrderTextWithLink();
+
+  // 먼저 복사
+  await navigator.clipboard.writeText(text);
+
+  // 공유창 열기
+  if(navigator.share){
+    navigator.share({
+      text: text
+    });
+  }
+
+  showToast('카카오톡으로 공유해주세요 💬');
 }
 /* ── 초기화 ── */
 function init(){
