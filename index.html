@@ -544,8 +544,7 @@ function makeOrderText(){
 /* ── 휴대폰 기본 공유창 바로 열기 ── */
 async function openNativeShare(){
   const text = makeOrderText();
-  const link = getAppLink();
-  const shareText = text ? `${text}\n\n🔗 앱 링크\n${link}` : `🔗 앱 링크\n${link}`;
+  const shareText = text;
 
   // navigator.share는 반드시 버튼 클릭 순간에 바로 실행되어야 함
   if(navigator.share){
@@ -572,8 +571,7 @@ async function openNativeShare(){
 
 /* ── 링크 포함 텍스트 ── */
 function makeOrderTextWithLink(){
-  const link = getAppLink();
-  return makeOrderText() + `\n\n🔗 앱 링크\n${link}`;
+  return makeOrderText();
 }
 
 function renderPreview(){
@@ -622,8 +620,7 @@ function doCopy(text, toastMsg, afterFn){
 /* ── 복사 링크 공유: 안 되면 무조건 복사 안내 ── */
 async function copyOrderWithLink(){
   const text = makeOrderText();
-  const link = getAppLink();
-  const shareText = text ? `${text}\n\n🔗 앱 링크\n${link}` : `🔗 앱 링크\n${link}`;
+  const shareText = text;
 
   // 1) 먼저 무조건 복사
   doCopy(shareText, '링크 포함 복사 완료', null);
