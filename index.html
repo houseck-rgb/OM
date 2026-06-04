@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>최우영씨푸드 발주 앱</title>
+<!-- <title>최우영씨푸드 재고/발주 앱</title> -->
 
 <link rel="icon" type="image/png" href="./icon-v3.png?v=3">
 <link rel="shortcut icon" type="image/png" href="./icon-v3.png?v=3">
@@ -336,7 +336,7 @@
 <div class="wrap">
   <div class="hero">
     <div class="brand">CHOI WOOYOUNG SEAFOOD</div>
-    <div class="sub">발주 리스트 · 카카오 보내기 = 복사 후 링크 열기</div>
+    <div class="sub">재고발주 리스트 · 카카오 보내기 = 복사 후 링크 열기</div>
   </div>
 
   <div class="section">
@@ -351,9 +351,12 @@
 
   <div class="section">
     <div class="title">☑ 체크 전용 품목</div>
+    <label class="check-only"><input type="checkbox" data-check="광어 없음"> 광어 없음</label>
+    <label class="check-only"><input type="checkbox" data-check="참돔 없음"> 참돔 없음</label>
     <label class="check-only"><input type="checkbox" data-check="점성어 없음"> 점성어 없음</label>
     <label class="check-only"><input type="checkbox" data-check="전복 없음"> 전복 없음</label>
     <label class="check-only"><input type="checkbox" data-check="멍게 없음"> 멍게 없음</label>
+    <label class="check-only"><input type="checkbox" data-check="성게알 없음"> 성게알 없음</label>
     <label class="check-only"><input type="checkbox" data-check="세꼬시 없음"> 세꼬시 없음</label>
   </div>
 
@@ -395,7 +398,7 @@
         🔗 복사 링크 공유
       </button>
       <button class="share-btn share-app" onclick="copyOnlyAndClose()">
-        📋 발주 내용 복사
+        📋 재고 내용 복사
       </button>
       <button class="share-btn share-close" onclick="closeShareModal()">닫기</button>
     </div>
@@ -510,7 +513,7 @@ function todayText(){
   return `${d.getMonth()+1}/${d.getDate()}(${yo})`;
 }
 
-/* ── 발주 텍스트 생성 ── */
+/* ── 재고 텍스트 생성 ── */
 function makeOrderText(){
   let lines = [];
 
@@ -550,7 +553,7 @@ async function openNativeShare(){
   if(navigator.share){
     try{
       await navigator.share({
-        title: '최우영씨푸드 발주',
+        title: '최우영씨푸드 재고',
         text: shareText
       });
       return;
@@ -629,7 +632,7 @@ async function copyOrderWithLink(){
   if(navigator.share){
     try{
       await navigator.share({
-        title: '최우영씨푸드 발주',
+        title: '최우영씨푸드 재고',
         text: shareText
       });
       closeShareModal();
@@ -641,7 +644,7 @@ async function copyOrderWithLink(){
 
   // 3) 공유창이 안 뜨는 환경: 복사는 완료되었으므로 안내
   closeShareModal();
-  alert('링크 포함 발주 내용이 복사되었습니다.\n카카오톡 대화방에 붙여넣어 보내세요.');
+  alert('링크 포함 재고 내용이 복사되었습니다.\n카카오톡 대화방에 붙여넣어 보내세요.');
 }
 
 /* ── 모달 ── */
@@ -656,7 +659,7 @@ function copyOrderWithLinkAndClose(){
 }
 
 function copyOnlyAndClose(){
-  doCopy(makeOrderText(), '발주 내용이 복사되었습니다 ✅', () => {
+  doCopy(makeOrderText(), '재고 내용이 복사되었습니다 ✅', () => {
     closeShareModal();
   });
 }
